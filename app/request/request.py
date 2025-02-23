@@ -18,7 +18,7 @@ class Request:
     def http_method(self, method: Method, port: int = 80) -> MethodDTO:
         url = f"http{'s' if port == 443 else ''}://{self.__domain}"
         try:
-            response = requests.request(method.value, url, timeout=self.__timeout)
+            response = requests.request(method.value, url, timeout=self.__timeout, allow_redirects=False)
             status = HTTPStatus(response.status_code)
             return MethodDTO(
                 method=method,
@@ -28,12 +28,11 @@ class Request:
         except requests.RequestException as e:
             raise RequestError(f"Ошибка при выполнении {method} запроса: {e}", url, e) from e
 
-
     def http_method_info(self, method: Method, port: int = 80) -> RequestDTO:
         url = f"http{'s' if port == 443 else ''}://{self.__domain}"
         start_time = time.time()
         try:
-            response = requests.request(method.value, url, timeout=self.__timeout)
+            response = requests.request(method.value, url, timeout=self.__timeout, allow_redirects=False)
             content_time = time.time() - start_time
             status = HTTPStatus(response.status_code)
             return RequestDTO(

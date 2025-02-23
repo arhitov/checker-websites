@@ -46,6 +46,8 @@ def output(domain: str):
     print("\nSSL-сертификат:")
     if check_dto.is_ssl():
         print(f"\tСертификат валиден: {'Да' if check_dto.ssl.is_valid else 'Нет'}")
+        print(f"\tСертификационный центр: {check_dto.ssl.organization}")
+        print(f"\tПоддерживаемые домены: {', '.join(check_dto.ssl.names)}")
         print(f"\tСрок действия: с {check_dto.ssl.start_date} до {check_dto.ssl.end_date}")
         print(f"\tОбщий срок действия: {check_dto.ssl.validity_period.days} дней")
         print(f"\tОсталось дней: {check_dto.ssl.left_period.days} дней")
@@ -72,6 +74,7 @@ def output(domain: str):
 
 
 if __name__ == '__main__':
-    domain = 'ya.ru'  # Замените на нужный домен
-    # domain = 'fl40.ru'  # Замените на нужный домен
+    # domain = 'ya.ru'  # Замените на нужный домен
+    domain = 'fl40.ru'  # Замените на нужный домен
+    # domain = 'leangroup.ru'  # Замените на нужный домен
     output(domain)
