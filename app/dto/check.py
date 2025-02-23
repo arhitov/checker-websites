@@ -2,6 +2,8 @@ from pydantic import BaseModel
 from app.dto.domain import DomainDTO, DomainResolve, DomainPort
 from app.dto.ssl import SSLDTO
 from app.dto.request import MethodDTO
+from app.dto.robots import RobotsDTO
+from app.dto.sitemap import SitemapDTO
 
 
 class CheckDTO(BaseModel):
@@ -10,6 +12,8 @@ class CheckDTO(BaseModel):
     ssl: SSLDTO | None = None
     ports: tuple[DomainPort, ...] = tuple()
     ports_methods: dict[int, tuple[MethodDTO, ...]] = tuple()
+    robots: RobotsDTO
+    sitemap: SitemapDTO | None
 
     def get_port(self, port: int) -> DomainPort | None:
         for port_dto in self.ports:

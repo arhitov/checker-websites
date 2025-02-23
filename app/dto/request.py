@@ -1,5 +1,5 @@
+from pydantic import BaseModel
 from http import HTTPStatus
-from pydantic import BaseModel, field_validator
 from app.dto.domain import DomainDTO
 from app.request.method import Method
 

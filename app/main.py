@@ -27,11 +27,13 @@ def check(domain: str) -> CheckDTO:
             ports_methods[port.number] = tuple(port_methods)
 
     return CheckDTO(
-        domain=domain_cls.domain(),
+        domain=domain_cls.domain,
         resolve=domain_resolve,
         ssl=ssl,
         ports=tuple(ports),
         ports_methods=ports_methods,
+        robots=domain_cls.robots(),
+        sitemap=domain_cls.sitemap(),
     )
 
 
@@ -72,9 +74,27 @@ def output(domain: str):
     else:
         print('\tНет данных по поддерживаемых портах')
 
+    print("\nRobots:")
+    if check_dto.robots.exist:
+        print(f'\tКод ответа: {check_dto.robots.status.value}')
+        print(f'\tHash: {check_dto.robots.hash}')
+        print(f'\tРазмер содержимого: {len(check_dto.robots.content)}')
+    else:
+        print('\tФайла не существует')
+
+    print("\nSitemap:")
+    if check_dto.sitemap is None:
+        print('\tНе удалось проверить файл')
+    elif check_dto.sitemap.exist:
+        print(f'\tКод ответа: {check_dto.sitemap.status.value}')
+        print(f'\tHash: {check_dto.sitemap.hash}')
+        print(f'\tРазмер содержимого: {len(check_dto.sitemap.content)}')
+    else:
+        print('\tФайла не существует')
+
 
 if __name__ == '__main__':
     # domain = 'ya.ru'  # Замените на нужный домен
-    domain = 'fl40.ru'  # Замените на нужный домен
-    # domain = 'leangroup.ru'  # Замените на нужный домен
+    # domain = 'fl40.ru'  # Замените на нужный домен
+    domain = 'leangroup.ru'  # Замените на нужный домен
     output(domain)
